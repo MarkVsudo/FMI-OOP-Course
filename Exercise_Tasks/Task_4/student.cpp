@@ -252,7 +252,7 @@ void generateRandomStudentData(Student &student)
     student.grades[i] = (float)randNum(3, 6);
   }
 
-  // Address
+  // Address (will improve this after we start working with text files)
   const char *CITIES[2] = {"Sofia", "Plovdiv"};
   const int SOFIA_POSTAL_CODES[2] = {1301, 1172};
   const char *POSTAL_CODE_1301_STREETS[2] = {"Pirotska Street", "Graf Ignatiev Street"};
