@@ -51,33 +51,6 @@ int main()
     createVector(vectors[i]);
   }
 
-  // Generate unique combinations dynamically and check perpendicularity
-  for (int i = 0; i < n - 2; i++)
-  {
-    for (int j = i + 1; j < n - 1; j++)
-    {
-      for (int k = j + 1; k < n; k++)
-      {
-        if (areThreeVectorsPerpendicular(vectors[i], vectors[j], vectors[k]))
-        {
-          std::cout << "Three mutually perpendicular vectors found:\n";
-          std::cout << "Vector " << i + 1 << ": ";
-          printVector(vectors[i]);
-          std::cout << std::endl;
-          std::cout << "Vector " << j + 1 << ": ";
-          printVector(vectors[j]);
-          std::cout << std::endl;
-          std::cout << "Vector " << k + 1 << ": ";
-          printVector(vectors[k]);
-          std::cout << std::endl;
-          return 0; // Exit early since we found a solution
-        }
-      }
-    }
-  }
-
-  std::cout << "No three mutually perpendicular vectors found.\n";
-
   delete[] vectors;
 
   return 0;
