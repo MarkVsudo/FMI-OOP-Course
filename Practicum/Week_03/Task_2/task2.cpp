@@ -21,6 +21,8 @@ int countLines(const char *filename)
     count++;
   }
 
+  inputFile.close();
+
   return count;
 }
 

@@ -1,0 +1,2 @@
+Sum of numbers: 3
+Product of numbers: 1
