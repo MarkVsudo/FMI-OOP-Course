@@ -147,6 +147,8 @@ public:
     if (!str)
       throw std::invalid_argument("Cannot pass an empty string!");
 
+    delete[] this->str;
+
     unsigned strLength = strlen(str);
     setStrCapacity(strLength);
     this->str = new char[strLength + 1];
