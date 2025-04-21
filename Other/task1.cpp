@@ -166,23 +166,6 @@ public:
     return *this;
   }
 
-  RentableCar(const RentableCar &other)
-      : id(idCounter++),
-        horsePowers(other.horsePowers),
-        fuelCapacity(other.fuelCapacity),
-        renter(other.renter)
-  {
-  }
-
-  RentableCar &operator=(const RentableCar &other)
-  {
-    if (this != &other)
-    {
-    }
-
-    return *this;
-  }
-
   ~RentableCar()
   {
   }
@@ -434,6 +417,16 @@ int main()
   car1.printRenter();
   std::cout << "Profit: " << car1.returnToDealer() << std::endl;
   car1.printRenter();
+
+  std::ofstream oFile("file.bin", std::ios::binary);
+  u1.writeToStream(oFile);
+  oFile.close();
+
+  std::ifstream iFile("file.bin", std::ios::binary);
+  User u2;
+  u2.readFromStream(iFile);
+  std::cout << "-------\n";
+  u2.printUser();
 
   CarRentalService rentalService(3);
   rentalService.addCar(car1);
