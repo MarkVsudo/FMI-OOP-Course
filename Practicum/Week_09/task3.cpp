@@ -140,12 +140,39 @@ public:
   {
   }
 
-  // - `[]` - връща реда от матрицата на съответния индекс(за константен и неконстантен достъп) - оператори за сравнение `<`,`>=`,`>`,`<=`,
-  // които сравняват сумата на всички елементи
-  //     - function call operator(),
-  // който връща транспонирана матрица
-  //     - operator bool - връща false,
-  // ако матрицата е нулевата.В противен случай връща true.
+  int *operator[](int index)
+  {
+    return matrix[index];
+  }
+
+  const int *operator[](int index) const
+  {
+    return matrix[index];
+  }
+
+  bool operator<(const Matrix &other) const
+  {
+  }
+
+  bool operator>=(const Matrix &other) const
+  {
+  }
+
+  bool operator>(const Matrix &other) const
+  {
+  }
+
+  bool operator<=(const Matrix &other) const
+  {
+  }
+
+  Matrix operator()() const
+  {
+  }
+
+  operator bool() const
+  {
+  }
 
 private:
   int **matrix;
