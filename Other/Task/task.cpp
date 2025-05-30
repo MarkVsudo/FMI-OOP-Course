@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <cstring>
 #include <stdexcept>
 
@@ -65,6 +66,9 @@ public:
     this->power = power;
   }
 
+  const char *getName() const { return name; }
+  unsigned getPower() const { return power; }
+
   static int ID;
 
 private:
@@ -109,14 +113,26 @@ private:
 class CarDB
 {
 public:
-  CarDB() : size(0), capacity(2)
+  CarDB() : size(0), capacity(2), carCount(0), carCap(4)
   {
     owners = new CarOwner[capacity];
+    cars = new Car *[carCap];
   }
 
   ~CarDB()
   {
     delete[] owners;
+    for (int i = 0; i < carCount; ++i)
+      delete cars[i];
+    delete[] cars;
+  }
+
+  void addCar(const Car &car)
+  {
+    if (carCount == carCap)
+      expandCars();
+
+    cars[carCount++] = new Car(car);
   }
 
   void addOwner(const char *name, int carID, unsigned short plate)
@@ -152,10 +168,89 @@ public:
     }
   }
 
+  void generateReport()
+  {
+    std::ofstream out("car-report.txt");
+    if (!out.is_open())
+    {
+      std::cerr << "Failed to open file for report." << std::endl;
+      return;
+    }
+
+    // 1. Най-популярна кола
+    const int MAX_CARS = 1024;
+    int carOwnerCounts[MAX_CARS] = {0}; // индекс = carID, стойност = брой притежатели
+
+    for (int i = 0; i < size; ++i)
+    {
+      int id = owners[i].getCarID();
+      if (id >= 0 && id < MAX_CARS)
+        carOwnerCounts[id]++;
+    }
+
+    int mostPopularCarID = -1;
+    int mostPopularCount = 0;
+    for (int i = 0; i < carCount; ++i)
+    {
+      if (carOwnerCounts[i] > mostPopularCount)
+      {
+        mostPopularCount = carOwnerCounts[i];
+        mostPopularCarID = i;
+      }
+    }
+
+    if (mostPopularCarID != -1 && cars[mostPopularCarID])
+      out << "Най-популярна кола: " << cars[mostPopularCarID]->getName() << "\n";
+    else
+      out << "Най-популярна кола: няма данни\n";
+
+    // 2. Средна мощност на всички притежавани коли
+    int totalPower = 0;
+    int uniqueUsedCarIDs[MAX_CARS] = {-1};
+    int usedCarCount = 0;
+
+    for (int i = 0; i < size; ++i)
+    {
+      int id = owners[i].getCarID();
+      bool alreadyCounted = false;
+      for (int j = 0; j < usedCarCount; ++j)
+      {
+        if (uniqueUsedCarIDs[j] == id)
+        {
+          alreadyCounted = true;
+          break;
+        }
+      }
+      if (!alreadyCounted && id >= 0 && id < carCount)
+      {
+        uniqueUsedCarIDs[usedCarCount++] = id;
+        totalPower += cars[id]->getPower();
+      }
+    }
+
+    double avgPower = usedCarCount > 0 ? (double)totalPower / usedCarCount : 0.0;
+    out << "Средна мощност: " << avgPower << "\n";
+
+    // 3. Списък на собственици с обща мощност
+    for (int i = 0; i < size; ++i)
+    {
+      int id = owners[i].getCarID();
+      if (id >= 0 && id < carCount && cars[id])
+      {
+        out << owners[i].getName() << " - " << cars[id]->getPower() << "\n";
+      }
+    }
+
+    out.close();
+  }
+
 private:
   CarOwner *owners;
   int size;
   int capacity;
+  Car **cars;
+  int carCount;
+  int carCap;
 
   bool isNumberPlateTaken(unsigned short plate) const
   {
@@ -170,6 +265,31 @@ private:
     return id >= 0 && id <= Car::ID;
   }
 
+  // Car *mostPopularCar() const
+  // {
+  //   const int arrLen = size;
+  //   int foundCar[arrLen] = {0};
+  //   for (int i = 0; i < size; ++i)
+  //   {
+  //   }
+  // }
+
+  int avgPower() const
+  {
+    if (!owners)
+    {
+      std::cout << "No cars registered to calculate average power!" << std::endl;
+      return 0;
+    }
+
+    int power = 0;
+    for (int i = 0; i < size; ++i)
+    {
+      // if(owners[i].getCarID() == )
+    }
+    return power;
+  }
+
   void expand()
   {
     capacity *= 2;
@@ -178,6 +298,18 @@ private:
       newArr[i] = owners[i];
     delete[] owners;
     owners = newArr;
+  }
+
+  void expandCars()
+  {
+    carCap *= 2;
+    Car **newCars = new Car *[carCap];
+
+    for (int i = 0; i < carCount; ++i)
+      newCars[i] = cars[i];
+
+    delete[] cars;
+    cars = newCars;
   }
 };
 
