@@ -10,7 +10,7 @@ class Column
 private:
   String name_;
   DataType type_;
-  Vector<Cell> cells_;
+  MyArray<Cell> cells_;
 
 public:
   // Constructors

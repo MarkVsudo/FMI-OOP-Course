@@ -5,9 +5,9 @@ Table::Table() : hasChanges_(false), delimiter_(','), hasBackup_(false) {}
 Table::~Table() = default;
 
 // Парсване на ред от CSV
-Vector<String> Table::parseLine(const String &line)
+MyArray<String> Table::parseLine(const String &line)
 {
-  Vector<String> tokens;
+  MyArray<String> tokens;
   String current;
   bool inQuotes = false;
   char quoteChar = '\0';
@@ -42,7 +42,7 @@ Vector<String> Table::parseLine(const String &line)
 }
 
 // Добавяне на ред с данни
-void Table::addDataRow(const Vector<String> &tokens)
+void Table::addDataRow(const MyArray<String> &tokens)
 {
   // Разширяване на броя колони ако е необходимо
   while (columns_.size() < tokens.size())
@@ -117,7 +117,7 @@ bool Table::loadFromCSV(const String &filename, bool hasHeaders, char delimiter)
   while (file.getline(line, sizeof(line)))
   {
     String lineStr(line);
-    Vector<String> tokens = parseLine(lineStr);
+    MyArray<String> tokens = parseLine(lineStr);
 
     if (firstLine)
     {
@@ -321,7 +321,7 @@ void Table::removeDuplicateRows()
       maxRows = columns_[i].size();
   }
 
-  Vector<bool> toRemove;
+  MyArray<bool> toRemove;
   toRemove.reserve(maxRows);
   for (size_t i = 0; i < maxRows; ++i)
   {
@@ -564,7 +564,7 @@ void Table::sortByColumn(int colIndex, bool ascending)
   }
 
   // Създаване на индекси за сортиране
-  Vector<size_t> indices;
+  MyArray<size_t> indices;
   indices.reserve(maxRows);
   for (size_t i = 0; i < maxRows; ++i)
   {
@@ -580,7 +580,7 @@ void Table::sortByColumn(int colIndex, bool ascending)
   // Пренареждане на всички колони според новия ред
   for (size_t col = 0; col < columns_.size(); ++col)
   {
-    Vector<Cell> newCells;
+    MyArray<Cell> newCells;
     newCells.reserve(maxRows);
 
     for (size_t i = 0; i < indices.size(); ++i)
@@ -612,7 +612,7 @@ void Table::swapElements(size_t &a, size_t &b)
 }
 
 // QuickSort имплементация за сортиране на индекси
-void Table::quickSort(Vector<size_t> &indices, int low, int high, int colIndex, bool ascending)
+void Table::quickSort(MyArray<size_t> &indices, int low, int high, int colIndex, bool ascending)
 {
   if (low < high)
   {
@@ -622,7 +622,7 @@ void Table::quickSort(Vector<size_t> &indices, int low, int high, int colIndex, 
   }
 }
 
-int Table::partition(Vector<size_t> &indices, int low, int high, int colIndex, bool ascending)
+int Table::partition(MyArray<size_t> &indices, int low, int high, int colIndex, bool ascending)
 {
   size_t pivot = indices[high];
   int i = low - 1;
@@ -668,7 +668,7 @@ void Table::filterByCondition(int colIndex, const String &op, const String &valu
       maxRows = columns_[i].size();
   }
 
-  Vector<bool> toKeep;
+  MyArray<bool> toKeep;
   toKeep.reserve(maxRows);
   for (size_t i = 0; i < maxRows; ++i)
   {

@@ -80,8 +80,8 @@ Cell Column::getMostFrequentValue() const
     return Cell();
 
   // Simple frequency counting without std::map
-  Vector<Cell> uniqueCells;
-  Vector<int> frequencies;
+  MyArray<Cell> uniqueCells;
+  MyArray<int> frequencies;
 
   for (size_t i = 0; i < cells_.size(); ++i)
   {

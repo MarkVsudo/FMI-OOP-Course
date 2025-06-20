@@ -22,19 +22,19 @@ public:
 
 private:
   // Помощни функции за парсване и обработка на команди
-  Vector<String> tokenize(const String &line);
+  MyArray<String> tokenize(const String &line);
 
   // Функции за показване на помощ
   void showHelp();
 
   // Функции за обработка на различните команди
-  void handleOpen(const Vector<String> &tokens);
-  void handleSave(const Vector<String> &tokens);
-  void handleSort(const Vector<String> &tokens);
-  void handleFilter(const Vector<String> &tokens);
-  void handleRemoveColumn(const Vector<String> &tokens);
-  void handleDuplicateColumn(const Vector<String> &tokens);
-  void handleSetCell(const Vector<String> &tokens);
-  void handleAddRow(const Vector<String> &tokens);
+  void handleOpen(const MyArray<String> &tokens);
+  void handleSave(const MyArray<String> &tokens);
+  void handleSort(const MyArray<String> &tokens);
+  void handleFilter(const MyArray<String> &tokens);
+  void handleRemoveColumn(const MyArray<String> &tokens);
+  void handleDuplicateColumn(const MyArray<String> &tokens);
+  void handleSetCell(const MyArray<String> &tokens);
+  void handleAddRow(const MyArray<String> &tokens);
   void handleExit();
 };

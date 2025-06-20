@@ -3,7 +3,7 @@
 #include <new>
 
 template <typename T>
-class Vector
+class MyArray
 {
 private:
   T *data_;
@@ -14,14 +14,14 @@ private:
 
 public:
   // Constructors
-  Vector();
-  Vector(const Vector &other);
+  MyArray();
+  MyArray(const MyArray &other);
 
   // Destructor
-  ~Vector();
+  ~MyArray();
 
   // Assignment operator
-  Vector &operator=(const Vector &other);
+  MyArray &operator=(const MyArray &other);
 
   // Capacity methods
   size_t size() const;
@@ -46,7 +46,7 @@ public:
 
 // Template implementation must be in header file
 template <typename T>
-void Vector<T>::resize(size_t newCapacity)
+void MyArray<T>::resize(size_t newCapacity)
 {
   T *newData = new T[newCapacity];
   if (data_)
@@ -62,10 +62,10 @@ void Vector<T>::resize(size_t newCapacity)
 }
 
 template <typename T>
-Vector<T>::Vector() : data_(nullptr), size_(0), capacity_(0) {}
+MyArray<T>::MyArray() : data_(nullptr), size_(0), capacity_(0) {}
 
 template <typename T>
-Vector<T>::Vector(const Vector &other) : data_(nullptr), size_(0), capacity_(0)
+MyArray<T>::MyArray(const MyArray &other) : data_(nullptr), size_(0), capacity_(0)
 {
   if (other.size_ > 0)
   {
@@ -79,13 +79,13 @@ Vector<T>::Vector(const Vector &other) : data_(nullptr), size_(0), capacity_(0)
 }
 
 template <typename T>
-Vector<T>::~Vector()
+MyArray<T>::~MyArray()
 {
   delete[] data_;
 }
 
 template <typename T>
-Vector<T> &Vector<T>::operator=(const Vector &other)
+MyArray<T> &MyArray<T>::operator=(const MyArray &other)
 {
   if (this != &other)
   {
@@ -108,19 +108,19 @@ Vector<T> &Vector<T>::operator=(const Vector &other)
 }
 
 template <typename T>
-size_t Vector<T>::size() const { return size_; }
+size_t MyArray<T>::size() const { return size_; }
 
 template <typename T>
-bool Vector<T>::empty() const { return size_ == 0; }
+bool MyArray<T>::empty() const { return size_ == 0; }
 
 template <typename T>
-T &Vector<T>::operator[](size_t index) { return data_[index]; }
+T &MyArray<T>::operator[](size_t index) { return data_[index]; }
 
 template <typename T>
-const T &Vector<T>::operator[](size_t index) const { return data_[index]; }
+const T &MyArray<T>::operator[](size_t index) const { return data_[index]; }
 
 template <typename T>
-void Vector<T>::pushBack(const T &value)
+void MyArray<T>::pushBack(const T &value)
 {
   if (size_ >= capacity_)
   {
@@ -131,7 +131,7 @@ void Vector<T>::pushBack(const T &value)
 }
 
 template <typename T>
-void Vector<T>::erase(size_t index)
+void MyArray<T>::erase(size_t index)
 {
   if (index < size_)
   {
@@ -144,13 +144,13 @@ void Vector<T>::erase(size_t index)
 }
 
 template <typename T>
-void Vector<T>::clear()
+void MyArray<T>::clear()
 {
   size_ = 0;
 }
 
 template <typename T>
-void Vector<T>::reserve(size_t newCapacity)
+void MyArray<T>::reserve(size_t newCapacity)
 {
   if (newCapacity > capacity_)
   {
@@ -159,13 +159,13 @@ void Vector<T>::reserve(size_t newCapacity)
 }
 
 template <typename T>
-T *Vector<T>::begin() { return data_; }
+T *MyArray<T>::begin() { return data_; }
 
 template <typename T>
-const T *Vector<T>::begin() const { return data_; }
+const T *MyArray<T>::begin() const { return data_; }
 
 template <typename T>
-T *Vector<T>::end() { return data_ + size_; }
+T *MyArray<T>::end() { return data_ + size_; }
 
 template <typename T>
-const T *Vector<T>::end() const { return data_ + size_; }
+const T *MyArray<T>::end() const { return data_ + size_; }

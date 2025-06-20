@@ -11,13 +11,13 @@
 class Table
 {
 private:
-  Vector<Column> columns_;
+  MyArray<Column> columns_;
   String filename_;
   bool hasChanges_;
   char delimiter_;
 
   // За undo функционалност
-  Vector<Column> backupColumns_;
+  MyArray<Column> backupColumns_;
   bool hasBackup_;
 
 public:
@@ -26,8 +26,8 @@ public:
   ~Table();
 
   // Парсване и работа с CSV данни
-  Vector<String> parseLine(const String &line);
-  void addDataRow(const Vector<String> &tokens);
+  MyArray<String> parseLine(const String &line);
+  void addDataRow(const MyArray<String> &tokens);
   void determineColumnTypes();
 
   // Зареждане и запазване на файлове
@@ -62,8 +62,8 @@ private:
   // Функции за сортиране
   void sortByColumn(int colIndex, bool ascending);
   void swapElements(size_t &a, size_t &b);
-  void quickSort(Vector<size_t> &indices, int low, int high, int colIndex, bool ascending);
-  int partition(Vector<size_t> &indices, int low, int high, int colIndex, bool ascending);
+  void quickSort(MyArray<size_t> &indices, int low, int high, int colIndex, bool ascending);
+  int partition(MyArray<size_t> &indices, int low, int high, int colIndex, bool ascending);
   bool compareIndices(size_t a, size_t b, int colIndex, bool ascending);
 
   // Функции за филтриране

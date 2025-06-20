@@ -17,7 +17,7 @@ void CSVManager::run()
     if (lineStr.empty())
       continue;
 
-    Vector<String> tokens = tokenize(lineStr);
+    MyArray<String> tokens = tokenize(lineStr);
     if (tokens.empty())
       continue;
 
@@ -91,9 +91,9 @@ void CSVManager::run()
   }
 }
 
-Vector<String> CSVManager::tokenize(const String &line)
+MyArray<String> CSVManager::tokenize(const String &line)
 {
-  Vector<String> tokens;
+  MyArray<String> tokens;
   String current;
   bool inQuotes = false;
   char quoteChar = '\0';
@@ -157,7 +157,7 @@ void CSVManager::showHelp()
   std::cout << std::endl;
 }
 
-void CSVManager::handleOpen(const Vector<String> &tokens)
+void CSVManager::handleOpen(const MyArray<String> &tokens)
 {
   if (tokens.size() < 2)
   {
@@ -197,7 +197,7 @@ void CSVManager::handleOpen(const Vector<String> &tokens)
   }
 }
 
-void CSVManager::handleSave(const Vector<String> &tokens)
+void CSVManager::handleSave(const MyArray<String> &tokens)
 {
   String filename;
   if (tokens.size() > 1)
@@ -215,7 +215,7 @@ void CSVManager::handleSave(const Vector<String> &tokens)
   }
 }
 
-void CSVManager::handleSort(const Vector<String> &tokens)
+void CSVManager::handleSort(const MyArray<String> &tokens)
 {
   if (tokens.size() < 2)
   {
@@ -236,7 +236,7 @@ void CSVManager::handleSort(const Vector<String> &tokens)
   std::cout << "Table sorted by column: " << column.c_str() << std::endl;
 }
 
-void CSVManager::handleFilter(const Vector<String> &tokens)
+void CSVManager::handleFilter(const MyArray<String> &tokens)
 {
   if (tokens.size() < 4)
   {
@@ -262,7 +262,7 @@ void CSVManager::handleFilter(const Vector<String> &tokens)
   std::cout << "Table filtered" << std::endl;
 }
 
-void CSVManager::handleRemoveColumn(const Vector<String> &tokens)
+void CSVManager::handleRemoveColumn(const MyArray<String> &tokens)
 {
   if (tokens.size() < 2)
   {
@@ -275,7 +275,7 @@ void CSVManager::handleRemoveColumn(const Vector<String> &tokens)
   std::cout << "Column removed: " << column.c_str() << std::endl;
 }
 
-void CSVManager::handleDuplicateColumn(const Vector<String> &tokens)
+void CSVManager::handleDuplicateColumn(const MyArray<String> &tokens)
 {
   if (tokens.size() < 2)
   {
@@ -294,7 +294,7 @@ void CSVManager::handleDuplicateColumn(const Vector<String> &tokens)
   std::cout << "Column duplicated: " << column.c_str() << std::endl;
 }
 
-void CSVManager::handleSetCell(const Vector<String> &tokens)
+void CSVManager::handleSetCell(const MyArray<String> &tokens)
 {
   if (tokens.size() < 4)
   {
@@ -324,7 +324,7 @@ void CSVManager::handleSetCell(const Vector<String> &tokens)
   }
 }
 
-void CSVManager::handleAddRow(const Vector<String> &tokens)
+void CSVManager::handleAddRow(const MyArray<String> &tokens)
 {
   if (tokens.size() < 2)
   {
