@@ -2,31 +2,17 @@
 
 ## 1. Подготовка на тестови данни
 
-Първо създайте тестови CSV файлове:
-
-### test_students.csv
+test_students.csv
 
 ```csv
 Name,Age,Grade,EGN,Faculty_Number,Salary
-"Иван Петров",20,85.5,9512154321,12345,1250.50BGN
-"Мария Георгиева",19,92.0,0012184567,0CS0400123,1350.75BGN
-"Петър Стоянов",21,78.3,8905123456,54321,1180.25BGN
-"Анна Димитрова",20,88.7,9801234567,0IT0400124,1420.00BGN
-"Стефан Николов",22,94.2,9701123456,11111,1500.50BGN
-"Елена Попова",19,76.8,0112185432,0CS0400125,1100.75BGN
-"Иван Петров",20,85.5,9512154321,12345,1250.50BGN
-```
-
-### test_products.csv
-
-```csv
-Product,Price,Category,Stock
-"Laptop",1200.50EUR,Electronics,15
-"Mouse",25.99USD,Electronics,50
-"Keyboard",45.00EUR,Electronics,30
-"Chair",150.75BGN,Furniture,8
-"Desk",300.00BGN,Furniture,5
-"Monitor",250.99EUR,Electronics,12
+"Ivan Petrov",20,85.5,9512154321,12345,1250.50BGN
+"Maria Petrunova",19,92.0,0012184567,0MI0700123,1350.75BGN
+"Petko Stoyanov",21,78.3,8905123456,54321,1180.25BGN
+"Ani Dimitrova",20,88.7,9801234567,0IT0400124,1420.00BGN
+"Stefcho Nikolov",22,94.2,9701123456,11111,1500.50BGN
+"Eli Petkanova",19,76.8,0112185432,1MI0700125,1100.75BGN
+"Ivan Petrov",20,85.5,9512154321,12345,1250.50BGN
 ```
 
 ## 2. Основни операции
@@ -34,6 +20,9 @@ Product,Price,Category,Stock
 ### Стартиране и помощ
 
 ```bash
+# При стартиране във VS CODE
+g++ -std=c++17 -Wall -Wextra *.cpp -o csv_manager
+
 # Стартиране на програмата
 ./csv_manager
 
@@ -93,8 +82,8 @@ filter Grade >= 90
 filter Grade < 80
 
 # Филтриране по име
-filter Name == "Иван Петров"
-filter Name != "Мария Георгиева"
+filter Name == "Ivan Petrov"
+filter Name != "Maria Petrunova"
 
 # Филтриране по заплата
 filter Salary > 1300.00BGN
@@ -144,13 +133,13 @@ add_row copy 3
 
 ```bash
 # Промяна на стойност в клетка
-set_cell Name 1 "Нико Белчев"
+set_cell Name 1 "Mark Veskov"
 set_cell Age 2 25
 set_cell Grade 3 95.5
 set_cell Salary 1 1600.00BGN
 
 # Промяна на факултетен номер
-set_cell Faculty_Number 2 0MA0400999
+set_cell Faculty_Number 2 0MI0700999
 ```
 
 ## 9. Undo функционалност
@@ -202,7 +191,6 @@ add_row invalid_type
 # Празни параметри
 sort
 filter
-save ""
 ```
 
 ## 12. Комплексни тестове
@@ -276,46 +264,10 @@ exit
 # При несъхранени промени ще бъде попитано дали да се съхранят
 ```
 
-## Допълнителни тестове
-
-### Тест с голям файл
-
-Създайте файл с повече данни и тествайте производителността:
-
-```bash
-open large_dataset.csv
-sort Name
-filter Age > 25
-remove_duplicates
-save large_processed.csv
-```
-
 ### Тест с различни delimiters
 
 ```bash
-open semicolon_data.csv true ;
-open tab_data.csv true "\t"
-open pipe_data.csv true |
+open semiColonCSV.csv false ;
 ```
-
-### Тест със специални символи
-
-Тествайте с данни съдържащи:
-
-* Кавички в текста
-* Запетаи в стойностите
-* Празни клетки
-* Специални символи
-
-## Очаквани резултати
-
-При правилно изпълнение на командите трябва да наблюдавате:
-
-* Коректно зареждане и показване на данни
-* Правилно сортиране според типа данни
-* Точно филтриране по зададените критерии
-* Успешно премахване на дублирани редове
-* Работеща undo функционалност
-* Запазване на файлове в правилен CSV формат
 
 При грешки програмата трябва да показва подходящи съобщения без да се затваря.
