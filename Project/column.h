@@ -13,28 +13,27 @@ private:
   MyArray<Cell> cells_;
 
 public:
-  // Constructors
+  // Конструктори
   Column();
   Column(const String &name);
 
-  // Name getters and setters
+  // Getter-и и Setter-и
   const String &getName() const;
   void setName(const String &name);
 
-  // Type getters and setters
   DataType getType() const;
   void setType(DataType type);
 
   // Size
   size_t size() const;
 
-  // Cell access and modification
+  // Достъп до клетки и модификация
   const Cell &getCell(size_t index) const;
   void setCell(size_t index, const Cell &cell);
   void addCell(const Cell &cell);
   void removeCell(size_t index);
 
-  // Statistical operations
+  // Статичстически операции
   Cell getMinValue() const;
   Cell getMaxValue() const;
   Cell getMostFrequentValue() const;

@@ -1,5 +1,6 @@
 #include "myString.h"
 
+// Преоразмеряване на низа
 void String::resize(size_t newCapacity)
 {
   char *newData = new char[newCapacity + 1];
@@ -16,11 +17,14 @@ void String::resize(size_t newCapacity)
   capacity_ = newCapacity;
 }
 
+// Конструктор по подразбиране - създава празен стринг
 String::String() : data_(nullptr), size_(0), capacity_(0)
 {
+  // начален капацитет - 16
   resize(16);
 }
 
+// Конструктор с параметър
 String::String(const char *str) : data_(nullptr), size_(0), capacity_(0)
 {
   if (str)
@@ -39,6 +43,7 @@ String::String(const char *str) : data_(nullptr), size_(0), capacity_(0)
   }
 }
 
+// Copy конструктор
 String::String(const String &other) : data_(nullptr), size_(0), capacity_(0)
 {
   size_ = other.size_;
@@ -50,11 +55,13 @@ String::String(const String &other) : data_(nullptr), size_(0), capacity_(0)
   data_[size_] = '\0';
 }
 
+// Деструктор - освобождава алокираната памет
 String::~String()
 {
   delete[] data_;
 }
 
+// Оператор за присвояване
 String &String::operator=(const String &other)
 {
   if (this != &other)
@@ -73,6 +80,7 @@ String &String::operator=(const String &other)
   return *this;
 }
 
+// Оператор за присвояване от низ
 String &String::operator=(const char *str)
 {
   if (str)
@@ -95,17 +103,26 @@ String &String::operator=(const char *str)
   return *this;
 }
 
+// Връща C-стринг представяне (const char*)
+// Връща празен стринг ако data_ е null
 const char *String::c_str() const { return data_ ? data_ : ""; }
+// Връща дължината на стринга
 size_t String::length() const { return size_; }
 size_t String::size() const { return size_; }
+// Проверява дали стрингът е празен
 bool String::empty() const { return size_ == 0; }
 
+// Оператор за достъп до символ по индекс (non-const)
 char &String::operator[](size_t index) { return data_[index]; }
+// Оператор за достъп до символ по индекс (const)
 const char &String::operator[](size_t index) const { return data_[index]; }
 
+// Връща първия символ или '\0' ако стрингът е празен
 char String::front() const { return size_ > 0 ? data_[0] : '\0'; }
+// Връща последния символ или '\0' ако стрингът е празен
 char String::back() const { return size_ > 0 ? data_[size_ - 1] : '\0'; }
 
+// Добавя символ в края на стринга
 void String::pushBack(char c)
 {
   if (size_ >= capacity_)
@@ -116,12 +133,14 @@ void String::pushBack(char c)
   data_[size_] = '\0';
 }
 
+// Изчиства стринга
 void String::clear()
 {
   size_ = 0;
   data_[0] = '\0';
 }
 
+// Създава подстринг
 String String::substr(size_t pos, size_t len) const
 {
   if (pos >= size_)
@@ -140,6 +159,7 @@ String String::substr(size_t pos, size_t len) const
   return result;
 }
 
+// Конкатенира два стринга и връща нов стринг
 String String::operator+(const String &other) const
 {
   String result;
@@ -158,6 +178,7 @@ String String::operator+(const String &other) const
   return result;
 }
 
+// Добавя друг стринг към текущия стринг
 String &String::operator+=(const String &other)
 {
   size_t newSize = size_ + other.size_;
@@ -174,11 +195,13 @@ String &String::operator+=(const String &other)
   return *this;
 }
 
+// Сравнява два стринга лексикографски
 int String::compare(const String &other) const
 {
   return strcmp(c_str(), other.c_str());
 }
 
+// Проверява дали два стринга са равни
 bool String::operator==(const String &other) const
 {
   return compare(other) == 0;
@@ -189,6 +212,7 @@ bool String::operator!=(const String &other) const
   return compare(other) != 0;
 }
 
+// Проверява дали текущия стринг е лексикографски по-малък
 bool String::operator<(const String &other) const
 {
   return compare(other) < 0;
@@ -199,6 +223,7 @@ bool String::operator<=(const String &other) const
   return compare(other) <= 0;
 }
 
+// Проверява дали текущия стринг е лексикографски по-голям
 bool String::operator>(const String &other) const
 {
   return compare(other) > 0;

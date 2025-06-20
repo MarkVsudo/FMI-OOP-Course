@@ -9,7 +9,7 @@ int main()
   }
   catch (const std::exception &e)
   {
-    std::cerr << "Fatal error: " << e.what() << std::endl;
+    std::cerr << "An error occurred: " << e.what() << std::endl;
     return 1;
   }
   catch (...)

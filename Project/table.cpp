@@ -528,6 +528,7 @@ void Table::undo()
   }
 }
 
+// Връща дали има незапазени промени
 bool Table::hasUnsavedChanges() const { return hasChanges_; }
 
 // Създаване на backup за undo
@@ -612,6 +613,7 @@ void Table::swapElements(size_t &a, size_t &b)
 }
 
 // QuickSort имплементация за сортиране на индекси
+// Инспирирано от https://stackoverflow.com/questions/5787964/c-quick-sort-algorithm
 void Table::quickSort(MyArray<size_t> &indices, int low, int high, int colIndex, bool ascending)
 {
   if (low < high)
@@ -642,6 +644,7 @@ int Table::partition(MyArray<size_t> &indices, int low, int high, int colIndex, 
   return i + 1;
 }
 
+// Сравнява два индекса според стойностите в определена колона
 bool Table::compareIndices(size_t a, size_t b, int colIndex, bool ascending)
 {
   if (a >= columns_[colIndex].size())
@@ -653,6 +656,7 @@ bool Table::compareIndices(size_t a, size_t b, int colIndex, bool ascending)
   return ascending ? result : !result;
 }
 
+// Филтрира таблицата според условие върху определена колона
 void Table::filterByCondition(int colIndex, const String &op, const String &value)
 {
   if (columns_.empty() || colIndex >= static_cast<int>(columns_.size()))

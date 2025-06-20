@@ -5,7 +5,7 @@
 #include "table.h"
 #include "myArray.h"
 #include "myString.h"
-#include "utils.h" // For stringToInt, isSpaceChar functions
+#include "utils.h"
 
 class CSVManager
 {

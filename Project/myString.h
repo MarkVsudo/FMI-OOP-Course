@@ -13,45 +13,45 @@ private:
   void resize(size_t newCapacity);
 
 public:
-  // Constructors
+  // Контруктори
   String();
   String(const char *str);
   String(const String &other);
 
-  // Destructor
+  // Деструктор
   ~String();
 
-  // Assignment operators
+  // Оператор за присвояване
   String &operator=(const String &other);
   String &operator=(const char *str);
 
-  // Access methods
+  // Функции за достъп
   const char *c_str() const;
   size_t length() const;
   size_t size() const;
   bool empty() const;
 
-  // Element access
+  // Достъп до елемент
   char &operator[](size_t index);
   const char &operator[](size_t index) const;
   char front() const;
   char back() const;
 
-  // Modifiers
+  // Модификатори
   void pushBack(char c);
   void clear();
 
-  // String operations
+  // Операции над низове
   String substr(size_t pos, size_t len = SIZE_MAX) const;
 
-  // Concatenation operators
+  // Оператори за конкатенация на низове
   String operator+(const String &other) const;
   String &operator+=(const String &other);
 
-  // Comparison methods
+  // Функция за сравнение
   int compare(const String &other) const;
 
-  // Comparison operators
+  // Оператори за сравнение
   bool operator==(const String &other) const;
   bool operator!=(const String &other) const;
   bool operator<(const String &other) const;

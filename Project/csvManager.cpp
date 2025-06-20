@@ -1,12 +1,15 @@
 #include "csvManager.h"
 
+// Конструктор - инициализира мениджъра в работно състояние
 CSVManager::CSVManager() : running_(true) {}
 
+// Основният цикъл на програмата - чете команди от потребителя и ги изпълнява
 void CSVManager::run()
 {
   std::cout << "CSV Table Manager" << std::endl;
   std::cout << "Type 'help' for available commands" << std::endl;
 
+  // Главният цикъл на програмата - работи докато running_ е true
   while (running_)
   {
     std::cout << "> ";
@@ -14,15 +17,19 @@ void CSVManager::run()
     std::cin.getline(line, sizeof(line));
 
     String lineStr(line);
+    // Прескача празни редове
     if (lineStr.empty())
       continue;
 
+    // Разделя входа на токени (думи)
     MyArray<String> tokens = tokenize(lineStr);
     if (tokens.empty())
       continue;
 
+    // Първият токен е командата
     String command = tokens[0];
 
+    // Обработва командите с обработка на изключения
     try
     {
       if (command == String("help"))
@@ -80,6 +87,7 @@ void CSVManager::run()
       }
       else
       {
+        // Неразпозната команда
         std::cout << "Unknown command: " << command.c_str() << std::endl;
         std::cout << "Type 'help' for available commands" << std::endl;
       }
@@ -91,17 +99,19 @@ void CSVManager::run()
   }
 }
 
+// Разделя началната команда на токени, като обработва кавички за стрингове с интервали
 MyArray<String> CSVManager::tokenize(const String &line)
 {
   MyArray<String> tokens;
   String current;
-  bool inQuotes = false;
-  char quoteChar = '\0';
+  bool inQuotes = false; // Флаг дали сме вътре в кавички
+  char quoteChar = '\0'; // Типът кавички (единични или двойни)
 
   for (size_t i = 0; i < line.length(); ++i)
   {
     char c = line[i];
 
+    // Започваме кавички
     if (!inQuotes && (c == '"' || c == '\''))
     {
       inQuotes = true;
@@ -109,11 +119,13 @@ MyArray<String> CSVManager::tokenize(const String &line)
     }
     else if (inQuotes && c == quoteChar)
     {
+      // Затваряме кавички (трябва да съвпада типът)
       inQuotes = false;
       quoteChar = '\0';
     }
     else if (!inQuotes && isSpaceChar(c))
     {
+      // Интервал извън кавички - разделител на токени
       if (!current.empty())
       {
         tokens.pushBack(current);
@@ -122,10 +134,12 @@ MyArray<String> CSVManager::tokenize(const String &line)
     }
     else
     {
+      // Обикновен символ - добавя към текущия токен
       current.pushBack(c);
     }
   }
 
+  // Добавя последния токен, ако има такъв
   if (!current.empty())
   {
     tokens.pushBack(current);
@@ -134,6 +148,7 @@ MyArray<String> CSVManager::tokenize(const String &line)
   return tokens;
 }
 
+// Показва помощна информация за всички налични команди
 void CSVManager::showHelp()
 {
   std::cout << "\nAvailable commands:\n";
@@ -157,6 +172,7 @@ void CSVManager::showHelp()
   std::cout << std::endl;
 }
 
+// Обработва командата за отваряне на CSV файл
 void CSVManager::handleOpen(const MyArray<String> &tokens)
 {
   if (tokens.size() < 2)
@@ -166,15 +182,17 @@ void CSVManager::handleOpen(const MyArray<String> &tokens)
   }
 
   String filename = tokens[1];
-  bool hasHeaders = true;
-  char delimiter = ',';
+  bool hasHeaders = true; // По подразбиране очаква headers
+  char delimiter = ',';   // По подразбиране използва запетая
 
+  // Обработва опционалния параметър за header
   if (tokens.size() > 2)
   {
     String headerStr = tokens[2];
     hasHeaders = (headerStr == String("true") || headerStr == String("1"));
   }
 
+  // Обработва опционалния параметър за разделител
   if (tokens.size() > 3)
   {
     if (tokens[3].length() == 1)
@@ -187,6 +205,7 @@ void CSVManager::handleOpen(const MyArray<String> &tokens)
     }
   }
 
+  // Опитва да зареди файла и показва резултата
   if (table_.loadFromCSV(filename, hasHeaders, delimiter))
   {
     std::cout << "File loaded successfully: " << filename.c_str() << std::endl;
@@ -197,14 +216,16 @@ void CSVManager::handleOpen(const MyArray<String> &tokens)
   }
 }
 
+// Обработва командата за запазване на таблицата
 void CSVManager::handleSave(const MyArray<String> &tokens)
 {
   String filename;
+  // Ако е дадено име на файл, го използва
   if (tokens.size() > 1)
   {
     filename = tokens[1];
   }
-
+  // Иначе използва текущото име на файла
   if (table_.saveToCSV(filename))
   {
     std::cout << "File saved successfully" << std::endl;
@@ -215,8 +236,10 @@ void CSVManager::handleSave(const MyArray<String> &tokens)
   }
 }
 
+// Обработва командата за сортиране на таблицата
 void CSVManager::handleSort(const MyArray<String> &tokens)
 {
+  // Проверява дали е дадена колона за сортиране
   if (tokens.size() < 2)
   {
     std::cout << "Usage: sort <column> [asc/desc]" << std::endl;
@@ -224,8 +247,9 @@ void CSVManager::handleSort(const MyArray<String> &tokens)
   }
 
   String column = tokens[1];
-  bool ascending = true;
+  bool ascending = true; // По подразбиране възходящо сортиране
 
+  // Обработва опционалната посока на сортиране
   if (tokens.size() > 2)
   {
     String direction = tokens[2];
@@ -236,8 +260,10 @@ void CSVManager::handleSort(const MyArray<String> &tokens)
   std::cout << "Table sorted by column: " << column.c_str() << std::endl;
 }
 
+// Обработва командата за филтриране на таблицата
 void CSVManager::handleFilter(const MyArray<String> &tokens)
 {
+  // Проверява дали са дадени всички необходими параметри
   if (tokens.size() < 4)
   {
     std::cout << "Usage: filter <column> <operator> <value>" << std::endl;
@@ -262,8 +288,10 @@ void CSVManager::handleFilter(const MyArray<String> &tokens)
   std::cout << "Table filtered" << std::endl;
 }
 
+// Обработва командата за премахване на колона
 void CSVManager::handleRemoveColumn(const MyArray<String> &tokens)
 {
+  // Проверява дали е дадено име на колона
   if (tokens.size() < 2)
   {
     std::cout << "Usage: remove_column <column>" << std::endl;
@@ -275,8 +303,10 @@ void CSVManager::handleRemoveColumn(const MyArray<String> &tokens)
   std::cout << "Column removed: " << column.c_str() << std::endl;
 }
 
+// Обработва командата за дублиране на колона
 void CSVManager::handleDuplicateColumn(const MyArray<String> &tokens)
 {
+  // Проверява дали е дадено име на колона за дублиране
   if (tokens.size() < 2)
   {
     std::cout << "Usage: duplicate_column <column> [new_name]" << std::endl;
@@ -285,6 +315,7 @@ void CSVManager::handleDuplicateColumn(const MyArray<String> &tokens)
 
   String column = tokens[1];
   String newName;
+  // Опционално ново име за дублираната колона
   if (tokens.size() > 2)
   {
     newName = tokens[2];
@@ -294,8 +325,10 @@ void CSVManager::handleDuplicateColumn(const MyArray<String> &tokens)
   std::cout << "Column duplicated: " << column.c_str() << std::endl;
 }
 
+// Обработва командата за задаване на стойност на клетка
 void CSVManager::handleSetCell(const MyArray<String> &tokens)
 {
+  // Проверява дали са дадени всички параметри
   if (tokens.size() < 4)
   {
     std::cout << "Usage: set_cell <column> <row> <value>" << std::endl;
@@ -305,6 +338,7 @@ void CSVManager::handleSetCell(const MyArray<String> &tokens)
   String column = tokens[1];
   try
   {
+    // Конвертира номера на реда от стринг в число
     int rowNum = stringToInt(tokens[2]);
     if (rowNum <= 0)
     {
@@ -324,8 +358,10 @@ void CSVManager::handleSetCell(const MyArray<String> &tokens)
   }
 }
 
+// Обработва командата за добавяне на нов ред
 void CSVManager::handleAddRow(const MyArray<String> &tokens)
 {
+  // Проверява дали е даден типа на новия ред
   if (tokens.size() < 2)
   {
     std::cout << "Usage: add_row <type> [source_row]" << std::endl;
@@ -334,8 +370,9 @@ void CSVManager::handleAddRow(const MyArray<String> &tokens)
   }
 
   String type = tokens[1];
-  int sourceRow = -1;
+  int sourceRow = -1; // -1 означава без източник
 
+  // За копиране е нужен източник
   if (type == String("copy"))
   {
     if (tokens.size() < 3)
@@ -360,6 +397,7 @@ void CSVManager::handleAddRow(const MyArray<String> &tokens)
     }
   }
 
+  // Проверява дали типът е валиден
   if (type != String("copy") && type != String("min") &&
       type != String("max") && type != String("mode"))
   {
@@ -372,8 +410,10 @@ void CSVManager::handleAddRow(const MyArray<String> &tokens)
   std::cout << "Row added (" << type.c_str() << ")" << std::endl;
 }
 
+// Обработва командата за излизане от програмата
 void CSVManager::handleExit()
 {
+  // Проверява дали има незапазени промени
   if (table_.hasUnsavedChanges())
   {
     std::cout << "You have unsaved changes. Save before exit? (y/n): ";
@@ -381,6 +421,7 @@ void CSVManager::handleExit()
     std::cin.getline(response, sizeof(response));
     String responseStr(response);
 
+    // Ако потребителят иска да запази
     if (responseStr == String("y") || responseStr == String("yes") || responseStr == String("Y"))
     {
       if (table_.saveToCSV())
@@ -389,6 +430,7 @@ void CSVManager::handleExit()
       }
       else
       {
+        // Ако запазването се провали, пита дали да излезе въпреки това
         std::cout << "Failed to save changes" << std::endl;
         std::cout << "Exit anyway? (y/n): ";
         std::cin.getline(response, sizeof(response));
@@ -401,6 +443,6 @@ void CSVManager::handleExit()
     }
   }
 
-  std::cout << "Goodbye!" << std::endl;
-  running_ = false;
+  std::cout << "Dovijdane!" << std::endl;
+  running_ = false; // Спира главния цикъл
 }

@@ -25,7 +25,7 @@ public:
   Table();
   ~Table();
 
-  // Парсване и работа с CSV данни
+  // Парсване и работа със CSV данни
   MyArray<String> parseLine(const String &line);
   void addDataRow(const MyArray<String> &tokens);
   void determineColumnTypes();

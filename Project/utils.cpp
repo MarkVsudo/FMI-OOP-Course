@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include <iostream>
 
-// String conversion functions
+// Функции за конвертиране на низове
 double stringToDouble(const String &str)
 {
   return atof(str.c_str());
@@ -20,7 +20,7 @@ String intToString(int value)
   return String(buffer);
 }
 
-// Character classification functions
+// Функции за класификация на символи
 bool isDigitChar(char c)
 {
   return c >= '0' && c <= '9';
@@ -33,10 +33,10 @@ bool isAlphaChar(char c)
 
 bool isSpaceChar(char c)
 {
-  return c == ' ' || c == '\t' || c == '\n' || c == '\r' || c == '\f' || c == '\v';
+  return c == ' ' || c == '\t' || c == '\n' || c == '\r';
 }
 
-// String validation functions
+// ункции за валидация на низове
 bool isAllDigits(const String &str)
 {
   for (size_t i = 0; i < str.length(); ++i)
@@ -88,43 +88,23 @@ bool isNumber(const String &str)
   return true;
 }
 
-// Specialized validation functions
+// Валидиращи фунцкии
 bool isValidEGN(const String &egn)
 {
   if (egn.length() != 10 || !isAllDigits(egn))
     return false;
 
-  // Проверка на датата
-  // String yearStr = egn.substr(0, 2);
-  String monthStr = egn.substr(2, 2);
-  String dayStr = egn.substr(4, 2);
+  int month = stringToInt(egn.substr(2, 2));
+  int day = stringToInt(egn.substr(4, 2));
 
-  // int year = stringToInt(yearStr);
-  int month = stringToInt(monthStr);
-  int day = stringToInt(dayStr);
+  // Нормализиране на месеца според века
+  if (month >= 21 && month <= 32)
+    month -= 20;
+  else if (month >= 41 && month <= 52)
+    month -= 40;
 
-  // Основна проверка на месец и ден
   if (month < 1 || month > 12 || day < 1 || day > 31)
-  {
-    // Проверка за месеци > 12 (19 век или 21 век)
-    if (month >= 21 && month <= 32)
-    {
-      month -= 20; // 19 век
-    }
-    else if (month >= 41 && month <= 52)
-    {
-      month -= 40; // 21 век
-    }
-    else
-    {
-      return false;
-    }
-
-    if (month < 1 || month > 12 || day < 1 || day > 31)
-    {
-      return false;
-    }
-  }
+    return false;
 
   return true;
 }
@@ -137,18 +117,21 @@ bool isValidFacultyNumber(const String &facNum)
     return true;
   }
 
-  // Нов формат: 0XX0400123
-  if (facNum.length() == 10 && facNum[0] == '0' &&
-      isAllDigits(facNum.substr(1, 2)) && facNum[3] == '0' &&
-      facNum.substr(4, 3) == String("400") && isAllDigits(facNum.substr(7, 3)))
+  // Нов формат: 0XX0Y00123
+  if (facNum.length() == 10 &&
+      facNum[0] == '0' &&                    // Започва с '0'
+      isAllDigits(facNum.substr(1, 2)) &&    // Позиции 1-2: две цифри
+      facNum[3] == '0' &&                    // Позиция 3: '0'
+      isDigitChar(facNum[4]) &&              // Позиция 4: произволна цифра
+      facNum.substr(5, 2) == String("00") && // Позиции 5-6: "00"
+      isAllDigits(facNum.substr(7, 3)))      // Позиции 7-9: три цифри
   {
     return true;
   }
 
   return false;
 }
-
-// Data type determination
+// Определяне на типа на данните
 DataType determineDataType(const String &value)
 {
   if (value.empty())
@@ -192,5 +175,6 @@ DataType determineDataType(const String &value)
     return DataType::NUMBER;
   }
 
+  // По подразбиране се счита за текст
   return DataType::TEXT;
 }
