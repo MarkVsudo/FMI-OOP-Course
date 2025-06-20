@@ -20,7 +20,7 @@ public:
     delete[] data;
   }
 
-  MyVector(const MyVector &other)
+  MyVector(const MyVector<T> &other)
       : data(new T[other.cap]),
         size(other.size),
         cap(other.cap)
