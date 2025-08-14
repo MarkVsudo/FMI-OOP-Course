@@ -1,6 +1,6 @@
 //=== src/main.cpp ===
-#include "io/CommandProcessor.h"
-#include "utils/Exception.h"
+#include "CommandProcessor.h"
+#include "Exception.h"
 #include <iostream>
 #include <vector>
 int main()

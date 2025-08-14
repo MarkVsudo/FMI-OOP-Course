@@ -1,6 +1,6 @@
 //=== src/datatypes/NumberType.cpp ===
 #include "NumberType.h"
-#include "../utils/StringUtils.h"
+#include "StringUtils.h"
 #include <cstdlib>
 
 bool NumberType::setValue(const std::string &val)

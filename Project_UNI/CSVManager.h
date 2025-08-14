@@ -1,8 +1,7 @@
 //=== src/csv/CSVManager.h ===
-#ifndef CSVMANAGER_H
-#define CSVMANAGER_H
+#pragma once
 
-#include "../core/Table.h"
+#include "Table.h"
 #include "CSVParser.h"
 #include "CSVWriter.h"
 #include <string>
@@ -22,5 +21,3 @@ public:
   void setDelimiter(char delimiter);
   char getDelimiter() const;
 };
-
-#endif

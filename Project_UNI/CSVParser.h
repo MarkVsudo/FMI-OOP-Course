@@ -1,8 +1,7 @@
 //=== src/csv/CSVParser.h ===
-#ifndef CSVPARSER_H
-#define CSVPARSER_H
+#pragma once
 
-#include "../core/Table.h"
+#include "Table.h"
 #include <string>
 
 class CSVParser
@@ -21,5 +20,3 @@ private:
   std::vector<std::string> parseLine(const std::string &line);
   bool isHeaderRow(const std::vector<std::string> &firstRow, const std::vector<std::string> &secondRow);
 };
-
-#endif

@@ -1,6 +1,5 @@
 //=== src/utils/Validator.h ===
-#ifndef VALIDATOR_H
-#define VALIDATOR_H
+#pragma once
 
 #include <string>
 
@@ -16,5 +15,3 @@ public:
 private:
   static bool isValidSpecialtyCode(const std::string &code);
 };
-
-#endif

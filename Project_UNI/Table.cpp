@@ -1,8 +1,8 @@
 //=== src/core/Table.cpp (UPDATED) ===
 #include "Table.h"
-#include "../utils/Exception.h"
-#include "../utils/StringUtils.h"
-#include "../datatypes/NumberType.h"
+#include "Exception.h"
+#include "StringUtils.h"
+#include "NumberType.h"
 #include <iostream>
 
 Table::Table() : hasHeaders(false), isModified(false) {}
