@@ -74,5 +74,3 @@ private:
   std::string generateUniqueColumnName(const std::string &baseName) const;
   bool rowExists(const Row &row) const;
 };
-
-#endif

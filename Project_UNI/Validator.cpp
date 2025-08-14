@@ -99,7 +99,7 @@ bool Validator::isValidCurrency(const std::string &currency)
     return false; // At least 1 digit + 3 currency chars
 
   // Check if last 3 characters are letters
-  for (int i = cleanCurr.length() - 3; i < cleanCurr.length(); ++i)
+  for (size_t i = cleanCurr.length() - 3; i < cleanCurr.length(); ++i)
   {
     char c = cleanCurr[i];
     if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')))

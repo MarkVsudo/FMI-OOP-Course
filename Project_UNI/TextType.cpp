@@ -26,7 +26,7 @@ int TextType::compare(const DataType &other) const
   return 0;
 }
 
-bool TextType::isValid(const std::string &val) const
+bool TextType::isValid(const std::string &) const
 {
   return true; // All strings are valid text
 }

@@ -54,7 +54,7 @@ bool CurrencyType::isValid(const std::string &val) const
     return false; // At least 1 digit + 3 currency chars
 
   // Check if last 3 characters are letters
-  for (int i = cleanVal.length() - 3; i < cleanVal.length(); ++i)
+  for (size_t i = cleanVal.length() - 3; i < cleanVal.length(); ++i)
   {
     char c = cleanVal[i];
     if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')))

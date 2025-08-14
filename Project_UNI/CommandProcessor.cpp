@@ -140,6 +140,7 @@ void CommandProcessor::handleOpen(const std::vector<std::string> &args)
 
 void CommandProcessor::handleSave(const std::vector<std::string> &args)
 {
+  (void)args;
 
   if (currentTable.getFilename().empty())
   {
@@ -154,6 +155,8 @@ void CommandProcessor::handleSave(const std::vector<std::string> &args)
 
 void CommandProcessor::handleSaveAs(const std::vector<std::string> &args)
 {
+  (void)args;
+
   if (args.empty())
   {
     showError("Usage: saveas <filename>");
@@ -169,6 +172,8 @@ void CommandProcessor::handleSaveAs(const std::vector<std::string> &args)
 
 void CommandProcessor::handlePrint(const std::vector<std::string> &args)
 {
+  (void)args;
+
   CSVFormatter::printTable(currentTable);
 }
 
@@ -346,6 +351,8 @@ void CommandProcessor::handleEditCell(const std::vector<std::string> &args)
 
 void CommandProcessor::handleUndo(const std::vector<std::string> &args)
 {
+  (void)args;
+
   if (history.canUndo())
   {
     history.undo();
@@ -359,6 +366,8 @@ void CommandProcessor::handleUndo(const std::vector<std::string> &args)
 
 void CommandProcessor::handleExit(const std::vector<std::string> &args)
 {
+  (void)args;
+
   if (currentTable.getModified())
   {
     confirmSaveChanges();
@@ -368,6 +377,8 @@ void CommandProcessor::handleExit(const std::vector<std::string> &args)
 
 void CommandProcessor::handleHelp(const std::vector<std::string> &args)
 {
+  (void)args;
+
   std::cout << "Available commands:\n";
   std::cout << "  open <filename>           - Load CSV file\n";
   std::cout << "  save                      - Save current file\n";
